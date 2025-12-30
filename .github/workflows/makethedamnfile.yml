@@ -1,0 +1,17 @@
+name: Build The Damn Thing!
+on: [push, workflow_dispatch] # workflow_dispatch lets you click a button to start it!
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure CMake
+        run: cmake -B build -G "Visual Studio 17 2022"
+      - name: Build
+        run: cmake --build build --config Release
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: libxaac-windows-encoder
+          path: build/Release/*.exe
